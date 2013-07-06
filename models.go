@@ -1,20 +1,42 @@
 package main
 
+import (
+	"time"
+)
+
+
 type Patient struct {
-}
-
-type Procedure struct {
-	
-}
-
-type ScheduledProcedure struct {
-}
-
-type Nurse struct {
-	Device string
+	Id int64
 	Name string
-	Patients []Patient
+	Nurse_Id int64
+}
+type Nurse struct {
+	Id int64
+	Name string
+	Password string
+	Key string
+	Device_Id int64
+}
+type Scheduled_Procedure struct {
+	Id int64
+	First_Occasion time.Time
+	Period time.Duration
+	Patient_Id int64
+	Procedure_Template_Id int64
+}
+type Procedure_Template struct {
+	Id int64
+	Name string
+	Description string
+	URI string
+}
+type Procedure struct {
+	Id int64
+	Scheduled_Procedure_Id int64
 }
 
-type Notification struct {
+type Device struct {
+	Id int64
+	Ios bool
+	DeviceToken string
 }

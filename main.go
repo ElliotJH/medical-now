@@ -1,27 +1,64 @@
 package main
 
-import("time")
+import(
+	"time"
+	"database/sql"
+	_ "github.com/mattn/go-sqlite3"
+	"github.com/coopernurse/gorp"
+)
 
 func main() {
-	patient := new(Patient)
-	waitChan := make(chan *Procedure)
-	addChan := make(chan *ScheduledProcedure)
-	go patient.eventLoop(waitChan, addChan)
-	addChan <-new(ScheduledProcedure)
-	time.Sleep(1000 * time.Millisecond)
-	addChan <-new(ScheduledProcedure)
-	time.Sleep(1000 * time.Millisecond)
+	db, err := sql.Open("sqlite3", "./medical-now.db")
+	if err != nil {
+		panic(err)
+	}
+	dbmap := &gorp.DbMap{Db: db, Dialect: gorp.SqliteDialect{}}
 
+
+	dbmap.AddTable(Patient{}).SetKeys(true, "Id")
+	dbmap.AddTable(Nurse{}).SetKeys(true, "Id")
+	dbmap.AddTable(Scheduled_Procedure{}).SetKeys(true, "Id")
+	dbmap.AddTable(Procedure_Template{}).SetKeys(true, "Id")
+	dbmap.AddTable(Procedure{}).SetKeys(true, "Id")
+	dbmap.AddTable(Device{}).SetKeys(true, "Id")
+	err = dbmap.CreateTablesIfNotExists()
+	if err != nil {
+		panic(err)
+	}
+
+	var patients []*Patient
+	
+	_, err = dbmap.Select(&patients, "select * from Patient")
+	if err != nil {
+		panic(err)
+	}
+	
+	dispatch := make(chan *Procedure)
+	addChannels := make([]chan *Scheduled_Procedure, 0)
+	
+	for _,patient := range patients {
+		addChannel := make(chan *Scheduled_Procedure)
+		go patient.eventLoop(dispatch, addChannel)
+		addChannels = append(addChannels, addChannel)
+		
+	}
+
+	go dispatchProcedure(dispatch)
+}
+
+
+func dispatchProcedure(incoming chan *Procedure) {
+	//var p *Procedure
 	for {
-		<- waitChan
-		print("Got procedure")
+		<-incoming
+		print("Got Procedure")
 	}
 }
 
-func (p *Patient) eventLoop(dispatch chan *Procedure, additem chan *ScheduledProcedure) {
+func (p *Patient) eventLoop(dispatch chan *Procedure, additem chan *Scheduled_Procedure) {
 	responder := make(chan *Procedure)
 	for {
-		var scheduledprocedure *ScheduledProcedure
+		var scheduledprocedure *Scheduled_Procedure
 		var procedure *Procedure
 		select {
 		case procedure = <-responder:
@@ -32,7 +69,7 @@ func (p *Patient) eventLoop(dispatch chan *Procedure, additem chan *ScheduledPro
 	}
 }
 
-func (s *ScheduledProcedure) dispatchWhenReady(dispatch chan *Procedure) {
+func (s *Scheduled_Procedure) dispatchWhenReady(dispatch chan *Procedure) {
 	time.Sleep(5000 * time.Millisecond)
 	dispatch <- new(Procedure)
 }
