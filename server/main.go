@@ -44,6 +44,7 @@ func main() {
 	}
 
 	go dispatchProcedure(dispatch)
+	go scheduleProcedures(dispatch)
 }
 
 
