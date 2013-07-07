@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -34,12 +35,12 @@ public class NotificationListAdapter extends BaseAdapter{
 
     @Override
     public Object getItem(int i) {
-        return notifications.get(i);
+        return notifications.get(getCount()-i);
     }
 
     @Override
     public long getItemId(int i) {
-        return i;
+        return getCount()-i;
     }
 
     @Override
@@ -51,10 +52,18 @@ public class NotificationListAdapter extends BaseAdapter{
         }
 
         TextView textView = (TextView) correctView.findViewById(R.id.description);
+        TextView patientText = (TextView) correctView.findViewById(R.id.patient_name);
+        TextView titleText = (TextView) correctView.findViewById(R.id.title);
+        ImageView gravPic = (ImageView) correctView.findViewById(R.id.patientImage);
+
 
         NotificationObject obj = notifications.get(i);
 
         textView.setText(obj.getDescription());
+        patientText.setText(obj.getPatient());
+        titleText.setText(obj.getName());
+
+        gravPic.setImageBitmap(obj.getImg());
 
         return correctView;
     }
@@ -62,6 +71,7 @@ public class NotificationListAdapter extends BaseAdapter{
     public void AddItem(NotificationObject item){
 
         notifications.add(item);
+
         this.notifyDataSetChanged();
     }
 
