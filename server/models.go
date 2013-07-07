@@ -1,10 +1,5 @@
 package main
 
-import (
-	"time"
-)
-
-
 type Patient struct {
 	Id int64
 	Name string
@@ -19,8 +14,8 @@ type Nurse struct {
 }
 type Scheduled_Procedure struct {
 	Id int64
-	First_Occasion time.Time
-	Period time.Duration
+	First_Occasion int64
+	Period int64
 	Patient_Id int64
 	Procedure_Template_Id int64
 }
