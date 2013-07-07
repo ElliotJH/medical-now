@@ -8,7 +8,25 @@ import (
 	"crypto/md5"
 	"time"
 	"io"
+	"strconv"
 )
+
+func createScheduledProcedureHandler(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+
+	first, err := strconv.Atoi(r.Form.Get("first"))
+	if err != nil { fmt.Fprintf(w, "Invalid format for first"); return }
+	period, err := strconv.Atoi(r.Form.Get("period"))
+	if err != nil { fmt.Fprintf(w, "Invalid format for period"); return }
+	patient, err := strconv.Atoi(r.Form.Get("patient"))
+	if err != nil { fmt.Fprintf(w, "Invalid format for patient"); return }
+	template, err := strconv.Atoi(r.Form.Get("template"))
+	if err != nil { fmt.Fprintf(w, "Invalid format for template"); return }
+	scheduled_procedure := &Scheduled_Procedure {0, first, period, patient, template}
+	dbmap.Insert(scheduled)
+	
+}
+
 
 func authHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
