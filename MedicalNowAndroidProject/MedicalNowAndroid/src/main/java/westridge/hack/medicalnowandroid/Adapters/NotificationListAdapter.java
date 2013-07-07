@@ -52,12 +52,15 @@ public class NotificationListAdapter extends BaseAdapter{
 
         TextView textView = (TextView) correctView.findViewById(R.id.description);
 
-        textView.setText("BLAH " + i);
+        NotificationObject obj = notifications.get(i);
+
+        textView.setText(obj.getDescription());
 
         return correctView;
     }
 
     public void AddItem(NotificationObject item){
+
         notifications.add(item);
         this.notifyDataSetChanged();
     }

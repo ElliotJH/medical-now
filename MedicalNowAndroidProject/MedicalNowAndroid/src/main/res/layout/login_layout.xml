@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+        >
+
+
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/username_box"
+            android:hint="Enter user id"
+            android:layout_above="@+id/password_edit"
+            android:ems="10"
+            android:layout_centerHorizontal="true"/>
+
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/password_edit"
+            android:editable="false"
+            android:hint="Password"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:id="@+id/login_button"
+            android:layout_below="@+id/password_edit"
+            android:layout_centerHorizontal="true"
+            android:onClick="loginClick"
+            android:enabled="true"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Incorrect Authentication Details"
+            android:id="@+id/errorLabel"
+            android:layout_above="@+id/username_box"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/WarningColour"
+            android:visibility="invisible"/>
+
+</RelativeLayout>

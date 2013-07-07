@@ -7,5 +7,6 @@
     </string>
     <string name="notifications_header" >Notifications
     </string>
-
+    <string name="sender_id">
+    </string>
 </resources>

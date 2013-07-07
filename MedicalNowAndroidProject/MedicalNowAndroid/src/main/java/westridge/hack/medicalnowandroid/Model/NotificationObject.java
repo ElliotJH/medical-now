@@ -4,24 +4,19 @@ package westridge.hack.medicalnowandroid.Model;
  * Created by jordan on 7/6/13.
  */
 public class NotificationObject {
-    private int id;
+
     private String name;
     private String description;
-    private String bmjURI;
+    private String patient;
+    private String patientEmail;
 
-    public NotificationObject(int id, String name, String description, String bmjURI) {
-        this.id = id;
+    public NotificationObject(String name, String description, String patient, String patientEmail) {
+
         this.name = name;
         this.description = description;
-        this.bmjURI = bmjURI;
-    }
+        this.patient = patient;
+        this.patientEmail = patientEmail;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -40,11 +35,19 @@ public class NotificationObject {
         this.description = description;
     }
 
-    public String getBmjURI() {
-        return bmjURI;
+    public String getPatient() {
+        return patient;
     }
 
-    public void setBmjURI(String bmjURI) {
-        this.bmjURI = bmjURI;
+    public void setPatient(String patient) {
+        this.patient = patient;
+    }
+
+    public String getPatientEmail() {
+        return patientEmail;
+    }
+
+    public void setPatientEmail(String patientEmail) {
+        this.patientEmail = patientEmail;
     }
 }
